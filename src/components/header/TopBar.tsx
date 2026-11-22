@@ -1,14 +1,14 @@
-import { AppBar, Toolbar, Typography } from "@mui/material";
+import { Typography } from "@mui/material";
 
-function Topbar() {
+type TopbarProps = {
+    title: string;
+};
+
+function Topbar({ title }: TopbarProps) {
     return (
-        <AppBar position="static" color="transparent" elevation={0}>
-            <Toolbar>
-                <Typography variant="h6" component="div">
-                    Spotify Dashboard
-                </Typography>
-            </Toolbar>
-        </AppBar>
+        <Typography variant="h4" component="h1">
+            {title}
+        </Typography>
     );
 }
 

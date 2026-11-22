@@ -69,11 +69,11 @@ function DashboardPage() {
             <MainPanel>
                <Container maxWidth="xl">
                     <Stack spacing={3}>
-                        <Topbar />
 
                         <DashboardHeader
                             title="Spotify Dashboard"
                             subtitle="Análisis y estadísticas de música."
+                            onExport= {() => {}}
                         />
 
                         <FilterBar>

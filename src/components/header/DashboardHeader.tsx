@@ -1,24 +1,37 @@
 import { Stack, Typography } from "@mui/material";
 
+import Topbar from "./TopBar";
+import ExportButton from "./ExportButton";
+
 type DashboardHeaderProps = {
     title: string;
     subtitle: string;
+    onExport: () => void;
 };
 
 function DashboardHeader({
     title,
-    subtitle
+    subtitle,
+    onExport
 }: DashboardHeaderProps) {
     return (
-        <Stack spacing={1}>
-            <Typography variant="h4" component="h1">
-                {title}
-            </Typography>
+            <Stack
+                direction="row"
+                justifyContent="space-between"
+                alignItems="center"
+                spacing= {2}
+            >
 
-            <Typography variant="body1" color="text.secondary">
-                {subtitle}
-            </Typography>
-        </Stack>
+                <Stack spacing={1} sx={{flexGrow: 1}}>
+                    <Topbar title={title} />
+
+                    <Typography variant="body1" color="text.secondary">
+                        {subtitle}
+                    </Typography>
+                </Stack>
+
+                <ExportButton onExport={onExport} />
+            </Stack>
     );
 }
 
