@@ -3,14 +3,19 @@ import { Container, Stack, Typography } from "@mui/material";
 
 import KpiGrid from "../components/kpi/KpiGrid";
 import { mockKpis, mockTracks } from "../data/mockData";
-import type { AlbumType } from "../types/dashboard";
+import type { AlbumType, YearRange, ColumnConfig } from "../types/dashboard";
 import AlbumTypeFilter from "../components/filters/AlbumTypeFilter";
 import FilterBar from "../components/filters/FilterBar";
-import type YearRange from "../types/dashboard";
 import YearRangeFilter from "../components/filters/YearRangeFilter";
 import TrackTable from "../components/table/TrackTable";
 
-import type { ColumnConfig } from "../types/dashboard";
+import DashboardHeader from "../components/header/DashboardHeader";
+import Topbar from "../components/header/TopBar";
+import ExportButton from "../components/header/ExportButton";
+
+import Sidebar from "../components/layout/SideBar";
+import MainPanel from "../components/layout/MainPanel";
+import DashboardLayout from "../components/layout/DashboardLayout";
 
 export const mockTrackColumns: ColumnConfig[] = [
     { id: "track", label: "Canción" },
@@ -50,49 +55,62 @@ function DashboardPage() {
     
     const currentTracks = filteredTracks.slice(startIndex, endIndex);
 
+    const [activeSection, setActiveSection] = useState("overview");
+
     return (
-        <Container maxWidth="xl">
-            <Stack spacing={3}>
-                <Typography variant="h4" component="h1">
-                    Spotify Dashboard
-                </Typography>
-
-                <Typography variant="body1" color="text.secondary">
-                    Análisis y estadísticas de música.
-                </Typography>
-		
-        		<FilterBar>
-		            <YearRangeFilter
-        		        value={yearRange}
-        		        minYear={anioMin}
-        		        maxYear={anioMax}
-        		        onChange={(range) => {
-                            setYearRange(range);
-                            setPage(1);
-                        }}
-    		        />
-    		        <AlbumTypeFilter
-        	            value={albumType}
-        		        options={["all", "album", "single", "compilation"]}
-        		        onChange={(type) => {
-                            setAlbumType(type);
-                            setPage(1);
-                        }}
-    		        />
-		        </FilterBar>
-
-                <KpiGrid items={mockKpis} />
-
-                <TrackTable
-                    rows={currentTracks}
-                    columns={mockTrackColumns}
-                    page={page}
-                    pageSize={pageSize}
-                    totalItems={filteredTracks.length}
-                    onPageChange={setPage}
+        <DashboardLayout
+            sidebar={
+                <Sidebar
+                    activeSection={activeSection}
+                    onNavigate={setActiveSection}
                 />
-            </Stack>
-        </Container>
+            }
+        >
+            <MainPanel>
+               <Container maxWidth="xl">
+                    <Stack spacing={3}>
+                        <Topbar />
+
+                        <DashboardHeader
+                            title="Spotify Dashboard"
+                            subtitle="Análisis y estadísticas de música."
+                        />
+
+                        <FilterBar>
+                            <YearRangeFilter
+                                value={yearRange}
+                                minYear={anioMin}
+                                maxYear={anioMax}
+                                onChange={(range) => {
+                                    setYearRange(range);
+                                    setPage(1);
+                                }}
+                            />
+
+                            <AlbumTypeFilter
+                                value={albumType}
+                                options={["all", "album", "single", "compilation"]}
+                                onChange={(type) => {
+                                    setAlbumType(type);
+                                    setPage(1);
+                                }}
+                            />
+                        </FilterBar>
+
+                        <KpiGrid items={mockKpis} />
+
+                        <TrackTable
+                            rows={currentTracks}
+                            columns={mockTrackColumns}
+                            page={page}
+                            pageSize={pageSize}
+                            totalItems={filteredTracks.length}
+                            onPageChange={setPage}
+                        />
+                    </Stack>
+                </Container>
+            </MainPanel>
+        </DashboardLayout>
     );
 }
 
