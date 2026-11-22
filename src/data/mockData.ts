@@ -54,7 +54,7 @@ export const mockTracks: TrackRow[] = [
         track: "Enter the Mirror",
         artist: "Les Rallizes Dénudés",
         album: "77 Live",
-        year: 1991,
+        year: 2022,
         popularity: 45,
         explicit: false,
         durationMin: 11.6,

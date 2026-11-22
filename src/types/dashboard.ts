@@ -42,3 +42,7 @@ export type TrackRow = {
     albumType: string;
 };
 
+export type ColumnConfig = {
+    id: keyof TrackRow;
+    label: string;
+};
