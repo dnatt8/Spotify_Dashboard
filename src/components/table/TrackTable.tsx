@@ -7,7 +7,8 @@ import {
     TableHead,
     TableRow,
     TableSortLabel,
-    Stack
+    Stack,
+    Typography
 } from "@mui/material";
 
 import type {
@@ -45,7 +46,18 @@ function TrackTable({
                     <TableHead>
                         <TableRow>
                             {columns.map((column) => (
-                                <TableCell key={column.id}>
+                                <TableCell
+                                    key={column.id}
+                                        sx={{
+                                        display: {
+                                        xs: ["track", "year", "popularity"].includes(column.id)
+                                        ? "table-cell"
+                                        : "none",
+                                        sm: "table-cell"
+                                        },
+                                        px: { xs: 1, sm: 2 }
+                                        }}
+                                >
                                     {onSort ? (
                                         <TableSortLabel
                                             active={sortBy === column.id}
@@ -65,8 +77,35 @@ function TrackTable({
                         {rows.map((row) => (
                             <TableRow key={row.id}>
                                 {columns.map((column) => (
-                                    <TableCell key={column.id}>
-                                        {row[column.id]}
+                                    <TableCell
+                                        key={column.id}
+                                        sx={{
+                                            display: {
+                                                xs: ["track", "year", "popularity"].includes(column.id)
+                                                    ? "table-cell"
+                                                    : "none",
+                                                sm: "table-cell"
+                                            },
+                                            px: { xs: 1, sm: 2 },
+                                            overflowWrap: "anywhere"
+                                        }}
+                                    >
+                                        {column.id === "track" ? (
+                                            <>
+                                                {row.track}
+                                                <Typography
+                                                    variant="caption"
+                                                    color="text.secondary"
+                                                    sx={{
+                                                        display: { xs: "block", sm: "none" }
+                                                    }}
+                                                >
+                                                    {row.artist}
+                                                </Typography>
+                                            </>
+                                        ) : (
+                                            row[column.id]
+                                        )}
                                     </TableCell>
                                 ))}
                             </TableRow>

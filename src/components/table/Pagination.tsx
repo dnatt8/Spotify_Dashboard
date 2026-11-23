@@ -16,7 +16,7 @@ function Pagination({
     const totalPages = Math.ceil(totalItems / pageSize);
 
     return (
-        <Stack alignItems="center">
+        <Stack sx={{ alignItems: "center" }}>
             <MuiPagination
                 count={totalPages}
                 page={page}

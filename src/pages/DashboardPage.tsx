@@ -1,35 +1,39 @@
 import { useState } from "react";
-import { Container, Stack, Typography } from "@mui/material";
+import { Container, Stack } from "@mui/material";
 
 import KpiGrid from "../components/kpi/KpiGrid";
 import { mockKpis, mockTracks } from "../data/mockData";
-import type { AlbumType, YearRange, ColumnConfig } from "../types/dashboard";
+import type { AlbumType, YearRange } from "../types/dashboard";
 import AlbumTypeFilter from "../components/filters/AlbumTypeFilter";
 import FilterBar from "../components/filters/FilterBar";
 import YearRangeFilter from "../components/filters/YearRangeFilter";
 import TrackTable from "../components/table/TrackTable";
 
 import DashboardHeader from "../components/header/DashboardHeader";
-import Topbar from "../components/header/TopBar";
-import ExportButton from "../components/header/ExportButton";
 
 import Sidebar from "../components/layout/SideBar";
 import MainPanel from "../components/layout/MainPanel";
 import DashboardLayout from "../components/layout/DashboardLayout";
 
-export const mockTrackColumns: ColumnConfig[] = [
-    { id: "track", label: "Canción" },
-    { id: "artist", label: "Artista" },
-    { id: "album", label: "Álbum" },
-    { id: "year", label: "Año" },
-    { id: "popularity", label: "Popularidad" },
-    { id: "durationMin", label: "Duración (min)" }
-];
+import ChartsGrid from "../components/charts/ChartsGrid";
+
+import {
+  mockYearMetrics,
+  mockArtists,
+  mockReleaseShares
+} from "../data/mockData";
+
+
+import { mockTrackColumns } from "../data/mockData";
+
+import { IconButton } from "@mui/material";
+import MenuIcon from "@mui/icons-material/Menu";
 
 const anioMin= 1998;
 const anioMax= 2025
 
 function DashboardPage() {
+    const [mobileOpen, setMobileOpen] = useState(false);
     const [albumType, setAlbumType] = useState<AlbumType>("all");
     const [yearRange, setYearRange] = useState<YearRange>({
     	    from: anioMin,
@@ -63,12 +67,26 @@ function DashboardPage() {
                 <Sidebar
                     activeSection={activeSection}
                     onNavigate={setActiveSection}
+                    mobileOpen={mobileOpen}
+                    onClose={() => setMobileOpen(false)}
                 />
             }
         >
             <MainPanel>
                <Container maxWidth="xl">
                     <Stack spacing={3}>
+
+                        <IconButton
+                            aria-label="Abrir menú"
+                            onClick={() => setMobileOpen(true)}
+                            sx={{
+                            display: { xs: "inline-flex", md: "none" },
+                            alignSelf: "flex-start",
+                            color: "#ffffff"
+                                }}
+                            >
+                            <MenuIcon />
+                        </IconButton>
 
                         <DashboardHeader
                             title="Spotify Dashboard"
@@ -98,6 +116,12 @@ function DashboardPage() {
                         </FilterBar>
 
                         <KpiGrid items={mockKpis} />
+
+                        <ChartsGrid
+                            data={mockYearMetrics}
+                            releaseData={mockReleaseShares}
+                            artists={mockArtists}
+                        />
 
                         <TrackTable
                             rows={currentTracks}

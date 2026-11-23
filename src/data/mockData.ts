@@ -3,7 +3,8 @@ import type {
     YearMetrics,
     ArtistSummary,
     ReleaseShare,
-    TrackRow
+    TrackRow,
+    ColumnConfig
 } from "../types/dashboard";
 
 
@@ -93,4 +94,13 @@ export const mockTracks: TrackRow[] = [
         durationMin: 5.2,
         albumType: "album"
     }
+];
+
+export const mockTrackColumns: ColumnConfig[] = [
+  { id: "track", label: "Canción" },
+  { id: "artist", label: "Artista" },
+  { id: "album", label: "Álbum" },
+  { id: "year", label: "Año" },
+  { id: "popularity", label: "Popularidad" },
+  { id: "durationMin", label: "Duración (min)" }
 ];
