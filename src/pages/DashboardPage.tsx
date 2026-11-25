@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Container, Stack } from "@mui/material";
+import { Container, Stack, Typography } from "@mui/material";
 
 import KpiGrid from "../components/kpi/KpiGrid";
 import { mockKpis, mockTracks } from "../data/mockData";
@@ -29,6 +29,8 @@ import { mockTrackColumns } from "../data/mockData";
 import { IconButton } from "@mui/material";
 import MenuIcon from "@mui/icons-material/Menu";
 
+import useSpotifyData from "../hooks/useSpotifyData";
+
 const anioMin= 1998;
 const anioMax= 2025
 
@@ -42,11 +44,25 @@ function DashboardPage() {
     
     const [page, setPage] = useState(1);
     const pageSize = 3;
+
+    const { tracks, loading, error } = useSpotifyData();
     
     const startIndex = (page - 1) * pageSize;
     const endIndex = startIndex + pageSize;
+
+    const dashboardTracks = tracks.map((track) => ({
+        id: track.id,
+        track: track.track_name,
+        artist: track.artist_name ?? "Desconocido",
+        album: track.album_name,
+        year: Number(track.album_release_date.slice(0, 4)),
+        popularity: track.track_popularity,
+        explicit: track.explicit,
+        durationMin: track.track_duration_min,
+        albumType: track.album_type
+    }));
     
-    const filteredTracks = mockTracks.filter((track) => {
+    const filteredTracks = dashboardTracks.filter((track) => {
         const matchesYear =
             track.year >= yearRange.from &&
             track.year <= yearRange.to;
@@ -61,6 +77,7 @@ function DashboardPage() {
 
     const [activeSection, setActiveSection] = useState("overview");
 
+    
     return (
         <DashboardLayout
             sidebar={
@@ -122,15 +139,21 @@ function DashboardPage() {
                             releaseData={mockReleaseShares}
                             artists={mockArtists}
                         />
-
-                        <TrackTable
-                            rows={currentTracks}
-                            columns={mockTrackColumns}
-                            page={page}
-                            pageSize={pageSize}
-                            totalItems={filteredTracks.length}
-                            onPageChange={setPage}
-                        />
+                        
+                        {loading ? (
+                            <Typography>Cargando canciones...</Typography>
+                        ) : error ? (
+                            <Typography color="error">{error}</Typography>
+                        ) : (
+                            <TrackTable
+                                rows={currentTracks}
+                                columns={mockTrackColumns}
+                                page={page}
+                                pageSize={pageSize}
+                                totalItems={filteredTracks.length}
+                                onPageChange={setPage}
+                            />
+                        )}
                     </Stack>
                 </Container>
             </MainPanel>
