@@ -31,7 +31,7 @@ import MenuIcon from "@mui/icons-material/Menu";
 
 import useSpotifyData from "../hooks/useSpotifyData";
 
-const anioMin= 1998;
+const anioMin= 1952;
 const anioMax= 2025
 
 function DashboardPage() {
@@ -46,7 +46,85 @@ function DashboardPage() {
     const pageSize = 3;
 
     const { tracks, loading, error } = useSpotifyData();
-    
+
+    const cancionesPorAnio = tracks.reduce<
+        Record<
+            number,
+            {
+                cantidad: number;
+                popularidadTotal: number;
+                duracionTotal: number;
+            }
+        >
+    >((acumulador, track) => {
+        const anio = Number(track.album_release_date.slice(0, 4));
+
+        if (!acumulador[anio]) {
+            acumulador[anio] = {
+                cantidad: 0,
+                popularidadTotal: 0,
+                duracionTotal: 0
+            };
+        }
+
+        acumulador[anio].cantidad += 1;
+        acumulador[anio].popularidadTotal += track.track_popularity;
+        acumulador[anio].duracionTotal += track.track_duration_min;
+
+        return acumulador;
+    }, {});
+
+    const yearMetrics: YearMetrics[] = Object.entries(cancionesPorAnio).map(
+        ([anio, datos]) => ({
+            year: Number(anio),
+            popularityAvg: datos.popularidadTotal / datos.cantidad,
+            durationAvgMin: datos.duracionTotal / datos.cantidad
+        })
+    );
+
+    const popularidadPromedio =
+        tracks.length > 0
+            ? tracks.reduce(
+                  (total, track) => total + track.track_popularity,
+                  0
+              ) / tracks.length
+            : 0;
+
+    const seguidoresPromedio =
+        tracks.length > 0
+            ? tracks.reduce(
+                  (total, track) => total + track.artist_followers,
+                  0
+              ) / tracks.length
+            : 0;
+
+    const duracionPromedio =
+        tracks.length > 0
+            ? tracks.reduce(
+                  (total, track) => total + track.track_duration_min,
+                  0
+              ) / tracks.length
+        : 0;
+
+    const kpis = [
+        {
+            id: "popularity",
+            label: "Popularidad promedio",
+            value: popularidadPromedio.toFixed()
+        },
+        {
+            id:"followers",
+            label:"Seguidores promedio",
+            value:seguidoresPromedio.toLocaleString()
+        },
+        {
+            id:"duration",
+            label:"Duración promedio",
+            value:duracionPromedio.toFixed(1),
+            unit: "min"
+        }
+    ];
+            
     const startIndex = (page - 1) * pageSize;
     const endIndex = startIndex + pageSize;
 
@@ -132,10 +210,10 @@ function DashboardPage() {
                             />
                         </FilterBar>
 
-                        <KpiGrid items={mockKpis} />
+                        <KpiGrid items={kpis} />
 
                         <ChartsGrid
-                            data={mockYearMetrics}
+                            data={yearMetrics}
                             releaseData={mockReleaseShares}
                             artists={mockArtists}
                         />

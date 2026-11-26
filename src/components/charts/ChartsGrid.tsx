@@ -23,7 +23,7 @@ function ChartsGrid({
 }: ChartsGridProps) {
     return (
         <Grid container spacing={2}>
-            <Grid size={{ xs: 12, md: 8 }}>
+            <Grid size={{ xs: 12, md: 8 }} sx={{ display: { xs: "none", md: "block" } }}>
                 <TrendChart data={data} />
             </Grid>
 
