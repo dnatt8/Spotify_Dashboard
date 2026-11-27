@@ -1,5 +1,7 @@
-import { Drawer, List } from "@mui/material";
+import { Drawer, List, Box } from "@mui/material";
 import NavItem from "./NavItem";
+
+import spotifyIcon from "../../assets/spotify-icon.svg";
 
 type SidebarProps = {
     activeSection: string;
@@ -10,8 +12,8 @@ type SidebarProps = {
 
 const navigationItems = [
     { id: "overview", label: "Resumen" },
-    { id: "tracks", label: "Canciones" },
-    { id: "artists", label: "Artistas" }
+    { id: "artists", label: "Artistas" },
+    { id: "tracks", label: "Canciones" }
 ];
 
 function Sidebar({
@@ -22,20 +24,43 @@ function Sidebar({
 }: SidebarProps) {
 
     const menu = (
-        <List>
-            {navigationItems.map((item) => (
-                <NavItem
-                    key={item.id}
-                    id={item.id}
-                    label={item.label}
-                    active={activeSection === item.id}
-                    onClick={(id) => {
-                        onNavigate(id);
-                        onClose();
+        <>
+            <Box
+                sx={{
+                    display: "flex",
+                    justifyContent: "center",
+                    alignItems: "center",
+                    py: 3,
+                    px: 2
+                }}
+            >
+                <Box
+                    component="img"
+                    src={spotifyIcon}
+                    alt="Spotify"
+                    sx={{
+                        width: "160px",
+                        maxWidth: "100%",
+                        height: "auto"
                     }}
                 />
-            ))}
-        </List>
+            </Box>
+
+            <List>
+                {navigationItems.map((item) => (
+                    <NavItem
+                        key={item.id}
+                        id={item.id}
+                        label={item.label}
+                        active={activeSection === item.id}
+                        onClick={(id) => {
+                            onNavigate(id);
+                            onClose();
+                        }}
+                    />
+                ))}
+            </List>
+        </>
     );
 
     return (

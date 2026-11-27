@@ -13,19 +13,32 @@ function Pagination({
     totalItems,
     onPageChange
 }: PaginationProps) {
+
+    if (totalItems === 0) {
+        return null;
+    }
+
     const totalPages = Math.ceil(totalItems / pageSize);
 
     return (
-        <Stack sx={{ alignItems: "center" }}>
+        <Stack
+            sx={{
+                alignItems: "center",
+                py: 1
+            }}
+        >
             <MuiPagination
                 count={totalPages}
                 page={page}
-                onChange={(_event, newPage) => onPageChange(newPage)}
+                onChange={(_event, newPage) =>
+                    onPageChange(newPage)
+                }
                 color="primary"
+                siblingCount={1}
+                boundaryCount={1}
             />
         </Stack>
     );
 }
 
 export default Pagination;
-

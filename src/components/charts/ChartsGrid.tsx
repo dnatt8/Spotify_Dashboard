@@ -23,20 +23,38 @@ function ChartsGrid({
 }: ChartsGridProps) {
     return (
         <Grid container spacing={2}>
-            <Grid size={{ xs: 12, md: 8 }} sx={{ display: { xs: "none", md: "block" } }}>
+
+            {/* Gráfico de evolución: solo visible en escritorio, en móvil no se visualiza bien */}
+            <Grid
+                size={{ xs: 12, md: 8 }}
+                sx={{ minWidth: 0, display: {xs:"none", md:"block"} }}
+            >
                 <TrendChart data={data} />
             </Grid>
 
-            <Grid size={{ xs: 12, md: 4 }}>
+            {/* Gráfico de tipos de lanzamiento */}
+            <Grid
+                size={{ xs: 12, md: 4 }}
+                sx={{ minWidth: 0 }}
+            >
                 <ReleaseTypeDonutChart data={releaseData} />
             </Grid>
 
-            <Grid size={{ xs: 12, md: 12 }}>
+            {/* Gráfico de artistas y destino del sidebar */}
+            <Grid
+                id="artists"
+                size={{ xs: 12 }}
+                sx={{
+                    minWidth: 0,
+                    scrollMarginTop: "16px"
+                }}
+            >
                 <TopArtistsBarChart
                     artists={artists}
                     limit={5}
                 />
             </Grid>
+
         </Grid>
     );
 }
