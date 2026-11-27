@@ -1,4 +1,3 @@
-
 import { Grid } from "@mui/material";
 
 import type {
@@ -25,10 +24,10 @@ function ChartsGrid({
     return (
         <Grid container spacing={2}>
 
-            {/* Gráfico de evolución: visible en escritorio y móvil */}
+            {/* Gráfico de evolución: solo visible en escritorio, en móvil no se visualiza bien */}
             <Grid
                 size={{ xs: 12, md: 8 }}
-                sx={{ minWidth: 0 }}
+                sx={{ minWidth: 0, display: {xs:"none", md:"block"} }}
             >
                 <TrendChart data={data} />
             </Grid>

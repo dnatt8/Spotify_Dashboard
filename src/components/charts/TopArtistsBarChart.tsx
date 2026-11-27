@@ -1,4 +1,5 @@
 import { Paper, Typography } from "@mui/material";
+import { useMediaQuery, useTheme } from "@mui/material";
 import {
     BarChart,
     Bar,
@@ -19,6 +20,9 @@ function TopArtistsBarChart({
     artists,
     limit
 }: TopArtistsBarChartProps) {
+
+    const theme = useTheme();
+    const isMobile = useMediaQuery(theme.breakpoints.only("xs"));
 
     const topArtistas = artists.slice(0, limit);
     return (
@@ -47,7 +51,7 @@ function TopArtistsBarChart({
                         width={100}
                     />
 
-                    <Tooltip />
+                    {!isMobile && <Tooltip />}
 
                     <Bar
                         dataKey="followers"

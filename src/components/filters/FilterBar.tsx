@@ -7,10 +7,11 @@ type FilterBarProps = {
 
 function FilterBar({ children }: FilterBarProps) {
     return (
-        <Paper elevation={1} sx={{ p: 2 }}>
+        <Paper elevation={1} sx={{ p:2 }}>
             <Stack
                 direction={{ xs: "column", sm: "row" }}
                 spacing={2}
+                alignItems= "center"
             >
                 {children}
             </Stack>

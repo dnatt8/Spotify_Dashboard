@@ -1,4 +1,3 @@
-
 import { useState } from "react";
 import { Container, Stack, Typography } from "@mui/material";
 
@@ -101,8 +100,7 @@ function DashboardPage() {
 
     // Top 5 de artistas ordenados por seguidores
     const artistasOrdenados = [...artistas]
-        .sort((a, b) => b.followers - a.followers)
-        .slice(0, limit);
+        .sort((a, b) => b.followers - a.followers);
 
     // 3. DATOS PARA EL GRÁFICO DE EVOLUCIÓN
     // Los promedios anuales respetan los filtros.
@@ -302,7 +300,7 @@ function DashboardPage() {
 
                         <DashboardHeader
                             title="Spotify Dashboard"
-                            subtitle="Análisis y estadísticas de música."
+                            subtitle="Análisis y estadísticas de canciones."
                             onExport={handleExport}
                             onOpenMenu={() => setMobileOpen(true)}
                         />

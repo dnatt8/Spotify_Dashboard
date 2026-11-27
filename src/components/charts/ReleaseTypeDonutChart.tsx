@@ -1,4 +1,5 @@
 import { Paper, Typography } from "@mui/material";
+import { useMediaQuery, useTheme } from "@mui/material";
 import {
     ResponsiveContainer,
     PieChart,
@@ -17,6 +18,8 @@ function ReleaseTypeDonutChart({
     data
 }: ReleaseTypeDonutChartProps) {
     const COLORS = ["#1DB954", "#3B82F6", "#F59E0B"];
+    const theme = useTheme();
+    const isMobile = useMediaQuery(theme.breakpoints.only("xs"));
     return (
         <Paper sx={{ p: 2 }}>
             <Typography variant="h6">
@@ -44,7 +47,7 @@ function ReleaseTypeDonutChart({
                         ))}
                     </Pie>
 
-                    <Tooltip/>
+                    {!isMobile && <Tooltip />}
 
                     <Legend
                         layout="horizontal"

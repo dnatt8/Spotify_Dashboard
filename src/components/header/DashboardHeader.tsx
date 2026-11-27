@@ -1,4 +1,3 @@
-
 import {
     Box,
     Typography,
@@ -40,7 +39,8 @@ function DashboardHeader({
                 top: 0,
                 zIndex: 1100,
                 width: "100%",
-                bgcolor: "#16171d",
+                boxSizing: "border-box",
+                bgcolor: "#22C55E",
                 color: "#ffffff",
 
                 px: { xs: 1.5, md: 2 },
@@ -161,7 +161,7 @@ function DashboardHeader({
                             <Typography
                                 variant="body2"
                                 sx={{
-                                    color: "#b6bdcc",
+                                    color: "#ffffff",
                                     fontSize: {
                                         xs: "0.85rem",
                                         md: "0.95rem"
@@ -183,13 +183,11 @@ function DashboardHeader({
                         alignSelf: compact
                             ? "center"
                             : {
-                                xs: "flex-start",
+                                xs: "flex-end",
                                 md: "center"
                             },
 
-                        ml: compact
-                            ? 0
-                            : { xs: 5, md: 0 }
+                        ml: 0 
                     }}
                 >
                     {compact ? (

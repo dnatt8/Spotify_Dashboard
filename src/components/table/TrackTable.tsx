@@ -1,4 +1,3 @@
-
 import {
     Paper,
     Table,
@@ -48,8 +47,15 @@ function TrackTable({
 }: TrackTableProps) {
 
     return (
-        <Stack spacing={2}>
-            <TableContainer component={Paper}>
+        <Paper sx={{ p: 2 }}>
+            <Typography variant="h6">
+                Lista de canciones
+            </Typography>
+
+            <Typography variant="body2" color="text.secondary">
+                Canciones populares del rango de años escogido.
+            </Typography>
+            <TableContainer component={Paper} sx={{ mt: 2 }}>
                 <Table
                     size="small"
                     sx={{
@@ -59,7 +65,11 @@ function TrackTable({
                 >
                     {/* ENCABEZADOS */}
                     <TableHead>
-                        <TableRow>
+                        <TableRow sx = {{ backgroundColor: "#22C55E", "& .MuiTableCell-root":
+                            {color: "#ffffff",
+                            fontWeight: "bold"
+                            } }}>
+                            
                             {columns.map((column) => (
                                 <TableCell
                                     key={column.id}
@@ -78,7 +88,7 @@ function TrackTable({
                                         },
                                         width:
                                             column.id === "track"
-                                                ? { xs: "55%", sm: "27%" }
+                                                ? { xs: "47%", sm: "19%" }
                                             : column.id === "artist"
                                                 ? "18%"
                                             : column.id === "album"
@@ -86,7 +96,7 @@ function TrackTable({
                                             : column.id === "year"
                                                 ? { xs: "18%", sm: "10%" }
                                             : column.id === "popularity"
-                                                ? { xs: "27%", sm: "12%" }
+                                                ? { xs: "35%", sm: "20%" }
                                             : "12%",
                                         px: { xs: 1, sm: 2 },
                                         py: 2,
@@ -175,7 +185,7 @@ function TrackTable({
                 totalItems={totalItems}
                 onPageChange={onPageChange}
             />
-        </Stack>
+        </Paper>
     );
 }
 
