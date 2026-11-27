@@ -32,7 +32,6 @@ import { exportarCancionesCSV } from "../utils/exportCsv";
 
 const anioMin = 1952;
 const anioMax = 2025;
-const limit = 5;
 
 function DashboardPage() {
     // Estados de la interfaz

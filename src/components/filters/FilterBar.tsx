@@ -11,7 +11,9 @@ function FilterBar({ children }: FilterBarProps) {
             <Stack
                 direction={{ xs: "column", sm: "row" }}
                 spacing={2}
-                alignItems= "center"
+                sx={{
+                    alignItems: "center"
+                }}
             >
                 {children}
             </Stack>
