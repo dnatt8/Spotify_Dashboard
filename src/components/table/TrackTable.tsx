@@ -1,3 +1,4 @@
+
 import {
     Paper,
     Table,
@@ -29,6 +30,12 @@ type TrackTableProps = {
     onPageChange: (page: number) => void;
 };
 
+// Columnas que se mantienen visibles en celulares
+const mobileColumns = ["track", "year", "popularity"];
+
+// Columnas numéricas alineadas a la derecha
+const numericColumns = ["year", "popularity", "durationMin"];
+
 function TrackTable({
     rows,
     columns,
@@ -39,24 +46,53 @@ function TrackTable({
     totalItems,
     onPageChange
 }: TrackTableProps) {
+
     return (
         <Stack spacing={2}>
             <TableContainer component={Paper}>
-                <Table>	
+                <Table
+                    size="small"
+                    sx={{
+                        tableLayout: "fixed",
+                        width: "100%"
+                    }}
+                >
+                    {/* ENCABEZADOS */}
                     <TableHead>
                         <TableRow>
                             {columns.map((column) => (
                                 <TableCell
                                     key={column.id}
-                                        sx={{
+                                    scope="col"
+                                    align={
+                                        numericColumns.includes(column.id)
+                                            ? "right"
+                                            : "left"
+                                    }
+                                    sx={{
                                         display: {
-                                        xs: ["track", "year", "popularity"].includes(column.id)
-                                        ? "table-cell"
-                                        : "none",
-                                        sm: "table-cell"
+                                            xs: mobileColumns.includes(column.id)
+                                                ? "table-cell"
+                                                : "none",
+                                            sm: "table-cell"
                                         },
-                                        px: { xs: 1, sm: 2 }
-                                        }}
+                                        width:
+                                            column.id === "track"
+                                                ? { xs: "55%", sm: "27%" }
+                                            : column.id === "artist"
+                                                ? "18%"
+                                            : column.id === "album"
+                                                ? "21%"
+                                            : column.id === "year"
+                                                ? { xs: "18%", sm: "10%" }
+                                            : column.id === "popularity"
+                                                ? { xs: "27%", sm: "12%" }
+                                            : "12%",
+                                        px: { xs: 1, sm: 2 },
+                                        py: 2,
+                                        overflowWrap: "anywhere",
+                                        verticalAlign: "middle"
+                                    }}
                                 >
                                     {onSort ? (
                                         <TableSortLabel
@@ -73,31 +109,49 @@ function TrackTable({
                         </TableRow>
                     </TableHead>
 
+                    {/* FILAS DE CANCIONES */}
                     <TableBody>
                         {rows.map((row) => (
-                            <TableRow key={row.id}>
+                            <TableRow
+                                key={row.id}
+                                hover
+                            >
                                 {columns.map((column) => (
                                     <TableCell
                                         key={column.id}
+                                        align={
+                                            numericColumns.includes(column.id)
+                                                ? "right"
+                                                : "left"
+                                        }
                                         sx={{
                                             display: {
-                                                xs: ["track", "year", "popularity"].includes(column.id)
+                                                xs: mobileColumns.includes(column.id)
                                                     ? "table-cell"
                                                     : "none",
                                                 sm: "table-cell"
                                             },
                                             px: { xs: 1, sm: 2 },
-                                            overflowWrap: "anywhere"
+                                            py: 1.5,
+                                            overflowWrap: "anywhere",
+                                            verticalAlign: "middle",
+                                            fontVariantNumeric: "tabular-nums"
                                         }}
                                     >
                                         {column.id === "track" ? (
                                             <>
                                                 {row.track}
+
+                                                {/* Artista debajo de la canción en móvil */}
                                                 <Typography
                                                     variant="caption"
                                                     color="text.secondary"
                                                     sx={{
-                                                        display: { xs: "block", sm: "none" }
+                                                        display: {
+                                                            xs: "block",
+                                                            sm: "none"
+                                                        },
+                                                        mt: 0.5
                                                     }}
                                                 >
                                                     {row.artist}
@@ -114,14 +168,14 @@ function TrackTable({
                 </Table>
             </TableContainer>
 
-	    <Pagination
-            	page={page}
-            	pageSize={pageSize}
-            	totalItems={totalItems}
-            	onPageChange={onPageChange}
+            {/* PAGINACIÓN */}
+            <Pagination
+                page={page}
+                pageSize={pageSize}
+                totalItems={totalItems}
+                onPageChange={onPageChange}
             />
-	    
-	</Stack>
+        </Stack>
     );
 }
 
